@@ -89,10 +89,10 @@ class LoginActivity : AppCompatActivity() {
 
         showLoading(true)
 
+        // 登录不发送 role，由服务器返回用户真实角色（admin 也可通过 parent 入口登录）
         val body = mapOf(
             "username" to username,
-            "password" to password,
-            "role" to selectedRole
+            "password" to password
         )
 
         ApiClient.apiService.login(body).enqueue(object : Callback<ApiResponse<LoginResponse>> {
@@ -163,8 +163,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun saveLoginData(data: LoginResponse) {
         App.instance.prefs.token = data.token
-        App.instance.prefs.saveUser(data.user)
-        App.instance.prefs.role = selectedRole
+        App.instance.prefs.saveUser(data.user)  // 保存服务器返回的真实角色
     }
 
     private fun showLoading(show: Boolean) {

@@ -78,6 +78,10 @@
         <activity android:name=".ui.battle.BattleActivity"
             android:theme="@style/Theme.StudyCheckStudent" />
 
+        <!-- 反馈 -->
+        <activity android:name=".ui.feedback.FeedbackActivity"
+            android:theme="@style/Theme.StudyCheckStudent" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

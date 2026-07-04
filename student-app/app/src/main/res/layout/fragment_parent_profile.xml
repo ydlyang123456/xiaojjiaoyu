@@ -87,6 +87,30 @@
                 android:stateListAnimator="@null" />
         </LinearLayout>
 
+        <!-- Feedback card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/card_background"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/btnFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/primary_alpha_12"
+                android:text="意见反馈"
+                android:textColor="@color/primary"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
+
         <!-- Logout card -->
         <LinearLayout
             android:layout_width="match_parent"

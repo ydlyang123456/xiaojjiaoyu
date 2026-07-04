@@ -17,7 +17,7 @@ class Config:
     AI_MODEL = os.environ.get('AI_MODEL', '')
     AI_PROVIDER = os.environ.get('AI_PROVIDER', '')
 
-    APP_VERSION_CODE = 20
-    APP_VERSION_NAME = '4.0.0'
-    APP_CHANGELOG = 'v4.0.0 更新内容：\n1. 修复家长模式崩溃问题\n2. 修复家长模式AI分析无法打开的问题\n3. 整合项目结构，学生端和家长端合并为一个应用\n4. 登录时选择角色自动切换对应界面'
+    APP_VERSION_CODE = 21
+    APP_VERSION_NAME = '4.1.0'
+    APP_CHANGELOG = 'v4.1.0 更新内容：\n1. 新增用户反馈系统，可提交意见反馈\n2. 新增管理员账号，可查看所有反馈并回复\n3. 个人中心新增意见反馈入口\n4. 家长端支持管理员模式（不绑定学生）'
     APK_DOWNLOAD_URL = '/static/apk/studycheck.apk'

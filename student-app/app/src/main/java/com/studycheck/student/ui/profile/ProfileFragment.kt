@@ -15,6 +15,7 @@ import com.studycheck.student.databinding.FragmentProfileBinding
 import com.studycheck.student.network.ApiClient
 import com.studycheck.student.ui.UpdateManager
 import com.studycheck.student.ui.auth.LoginActivity
+import com.studycheck.student.ui.feedback.FeedbackActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,6 +53,10 @@ class ProfileFragment : Fragment() {
 
         binding.btnCheckUpdate.setOnClickListener {
             UpdateManager(requireContext()).checkUpdate(manual = true)
+        }
+
+        binding.btnFeedback.setOnClickListener {
+            startActivity(Intent(requireContext(), FeedbackActivity::class.java))
         }
     }
 

@@ -18,6 +18,7 @@ from routes.correction import correction_bp
 from routes.pet import pet_bp
 from routes.flashcard import flashcard_bp
 from routes.battle import battle_bp
+from routes.feedback import feedback_bp
 
 
 def create_app():
@@ -43,6 +44,7 @@ def create_app():
     app.register_blueprint(pet_bp)
     app.register_blueprint(flashcard_bp)
     app.register_blueprint(battle_bp)
+    app.register_blueprint(feedback_bp)
 
     with app.app_context():
         db.create_all()

@@ -144,4 +144,20 @@ interface ApiService {
     // 版本更新
     @GET("api/app/version")
     suspend fun getAppVersion(): ApiResponse<AppVersion>
+
+    // 反馈
+    @POST("api/feedback/")
+    suspend fun submitFeedback(@Body body: Map<String, String>): ApiResponse<Feedback>
+
+    @GET("api/feedback/my")
+    suspend fun getMyFeedback(): ApiResponse<List<Feedback>>
+
+    @GET("api/feedback/all")
+    suspend fun getAllFeedback(): ApiResponse<List<Feedback>>
+
+    @POST("api/feedback/{id}/reply")
+    suspend fun replyFeedback(
+        @Path("id") id: Int,
+        @Body body: Map<String, String>
+    ): ApiResponse<Feedback>
 }

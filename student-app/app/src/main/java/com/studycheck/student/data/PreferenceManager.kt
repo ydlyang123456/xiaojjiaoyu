@@ -39,7 +39,12 @@ class PreferenceManager(private val prefs: SharedPreferences) {
     fun isLoggedIn(): Boolean = !token.isNullOrEmpty()
 
     fun isParent(): Boolean {
-        return (role ?: "student") == "parent"
+        val r = role ?: "student"
+        return r == "parent" || r == "admin"
+    }
+
+    fun isAdmin(): Boolean {
+        return role == "admin"
     }
 
     fun clear() {

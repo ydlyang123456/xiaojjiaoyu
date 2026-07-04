@@ -235,3 +235,19 @@ data class AppVersion(
     val download_url: String,
     val force_update: Boolean
 )
+
+// 反馈
+data class Feedback(
+    val id: Int,
+    val user_id: Int,
+    val category: String,
+    val content: String,
+    val contact: String?,
+    val status: String?,
+    val admin_reply: String?,
+    val created_at: String?,
+    val replied_at: String?,
+    val username: String? = null,
+    val nickname: String? = null,
+    val user_role: String? = null
+)

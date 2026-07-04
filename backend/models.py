@@ -288,6 +288,40 @@ class FormulaMastery(db.Model):
         }
 
 
+class Feedback(db.Model):
+    __tablename__ = 'feedbacks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    contact = db.Column(db.String(100))
+    status = db.Column(db.String(20), default='pending')
+    admin_reply = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    replied_at = db.Column(db.DateTime)
+
+    user = db.relationship('User', backref='feedbacks')
+
+    def to_dict(self, include_user=False):
+        data = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'category': self.category,
+            'content': self.content,
+            'contact': self.contact,
+            'status': self.status,
+            'admin_reply': self.admin_reply,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'replied_at': self.replied_at.isoformat() if self.replied_at else None
+        }
+        if include_user and self.user:
+            data['username'] = self.user.username
+            data['nickname'] = self.user.nickname
+            data['user_role'] = self.user.role
+        return data
+
+
 class Pet(db.Model):
     __tablename__ = 'pets'
     

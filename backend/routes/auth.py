@@ -13,7 +13,7 @@ def register():
         return jsonify({'code': 400, 'msg': '用户名和密码不能为空'}), 400
     
     role = data.get('role', 'student')
-    if role not in ['student', 'parent']:
+    if role not in ['student', 'parent', 'admin']:
         return jsonify({'code': 400, 'msg': '角色类型无效'}), 400
     
     if User.query.filter_by(username=data['username']).first():

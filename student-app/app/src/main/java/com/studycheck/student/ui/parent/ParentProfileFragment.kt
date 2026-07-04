@@ -14,6 +14,7 @@ import com.studycheck.student.data.User
 import com.studycheck.student.databinding.FragmentParentProfileBinding
 import com.studycheck.student.network.ApiClient
 import com.studycheck.student.ui.auth.LoginActivity
+import com.studycheck.student.ui.feedback.FeedbackActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,8 +44,18 @@ class ParentProfileFragment : Fragment() {
         binding.tvNickname.text = App.instance.prefs.nickname ?: "未设置"
         binding.tvUsername.text = "账号：${App.instance.prefs.username ?: ""}"
 
-        binding.btnBindStudent.setOnClickListener {
-            startActivity(Intent(requireContext(), BindStudentActivity::class.java))
+        // 管理员账号不绑定学生
+        if (App.instance.prefs.isAdmin()) {
+            binding.tvStudentName.text = "管理员账号"
+            binding.btnBindStudent.visibility = View.GONE
+        } else {
+            binding.btnBindStudent.setOnClickListener {
+                startActivity(Intent(requireContext(), BindStudentActivity::class.java))
+            }
+        }
+
+        binding.btnFeedback.setOnClickListener {
+            startActivity(Intent(requireContext(), FeedbackActivity::class.java))
         }
 
         binding.btnLogout.setOnClickListener {
