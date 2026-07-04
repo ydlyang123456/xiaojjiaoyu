@@ -1,6 +1,6 @@
 # 小J教育
 
-一个基于 AI 的学习检测系统，包含学生端和家长端两个 Android 应用，以及 Flask 后端服务。
+一个基于 AI 的学习检测系统，包含一个整合的 Android 应用（支持学生和家长两种角色）和 Flask 后端服务。
 
 ## 项目结构
 
@@ -20,20 +20,24 @@ StudyCheck/
 │   ├── services/         # 业务逻辑
 │   │   └── ai_service.py # AI服务
 │   └── uploads/          # 上传图片存储目录
-├── student-app/          # 学生端 Android 应用
-└── parent-app/           # 家长端 Android 应用
+└── student-app/          # Android 应用（学生端 + 家长端整合）
 ```
 
 ## 功能说明
 
-### 学生端
+应用支持两种角色，登录时自动切换 UI：
+
+### 学生模式
 - 用户注册/登录
 - 拍照上传题目
 - AI 搜题解题
 - 搜题历史记录
+- 知识词典
+- 宠物系统
+- 排行榜
 - 个人中心
 
-### 家长端
+### 家长模式
 - 用户注册/登录
 - 绑定学生账号
 - 查看学生搜题记录
@@ -232,17 +236,11 @@ systemctl restart nginx
 
 ## Android 应用开发
 
-### 学生端
 - 打开 Android Studio
 - 导入 `student-app` 目录
 - 修改 `ApiClient.kt` 中的 BASE_URL 为你的服务器地址
 - 构建并安装到手机
-
-### 家长端
-- 打开 Android Studio
-- 导入 `parent-app` 目录
-- 修改 `ApiClient.kt` 中的 BASE_URL 为你的服务器地址
-- 构建并安装到手机
+- 登录时选择"学生"或"家长"角色，应用自动切换对应 UI
 
 ## AI 服务配置
 

@@ -24,29 +24,27 @@ import com.studycheck.student.ui.pet.PetActivity
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val studentHomeFragment = HomeFragment()
-    private val searchFragment = SearchFragment()
-    private val profileFragment = ProfileFragment()
-    private val parentHomeFragment = ParentHomeFragment()
-    private val parentRecordsFragment = ParentRecordsFragment()
-    private val parentProfileFragment = ParentProfileFragment()
+    private lateinit var studentHomeFragment: HomeFragment
+    private lateinit var searchFragment: SearchFragment
+    private lateinit var profileFragment: ProfileFragment
+    private lateinit var parentHomeFragment: ParentHomeFragment
+    private lateinit var parentRecordsFragment: ParentRecordsFragment
+    private lateinit var parentProfileFragment: ParentProfileFragment
 
     private var activeFragment: Fragment? = null
     private var isParent = false
-    private var savedState: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        savedState = savedInstanceState
         isParent = App.instance.prefs.isParent()
 
         if (isParent) {
-            setupParentUI()
+            setupParentUI(savedInstanceState)
         } else {
-            setupStudentUI()
+            setupStudentUI(savedInstanceState)
         }
 
         // 自动检查更新
@@ -55,18 +53,26 @@ class MainActivity : AppCompatActivity() {
         }, 2000)
     }
 
-    private fun setupStudentUI() {
+    private fun setupStudentUI(savedInstanceState: Bundle?) {
         binding.bottomNavigation.menu.clear()
         binding.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu)
 
-        if (savedState == null) {
-            supportFragmentManager.beginTransaction()
+        val fm = supportFragmentManager
+        if (savedInstanceState == null) {
+            studentHomeFragment = HomeFragment()
+            searchFragment = SearchFragment()
+            profileFragment = ProfileFragment()
+            fm.beginTransaction()
                 .add(R.id.fragment_container, studentHomeFragment, "home")
                 .add(R.id.fragment_container, searchFragment, "search").hide(searchFragment)
                 .add(R.id.fragment_container, profileFragment, "profile").hide(profileFragment)
                 .commit()
-            activeFragment = studentHomeFragment
+        } else {
+            studentHomeFragment = fm.findFragmentByTag("home") as HomeFragment
+            searchFragment = fm.findFragmentByTag("search") as SearchFragment
+            profileFragment = fm.findFragmentByTag("profile") as ProfileFragment
         }
+        activeFragment = studentHomeFragment
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -95,18 +101,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupParentUI() {
+    private fun setupParentUI(savedInstanceState: Bundle?) {
         binding.bottomNavigation.menu.clear()
         binding.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu_parent)
 
-        if (savedState == null) {
-            supportFragmentManager.beginTransaction()
+        val fm = supportFragmentManager
+        if (savedInstanceState == null) {
+            parentHomeFragment = ParentHomeFragment()
+            parentRecordsFragment = ParentRecordsFragment()
+            parentProfileFragment = ParentProfileFragment()
+            fm.beginTransaction()
                 .add(R.id.fragment_container, parentHomeFragment, "parent_home")
                 .add(R.id.fragment_container, parentRecordsFragment, "parent_records").hide(parentRecordsFragment)
                 .add(R.id.fragment_container, parentProfileFragment, "parent_profile").hide(parentProfileFragment)
                 .commit()
-            activeFragment = parentHomeFragment
+        } else {
+            parentHomeFragment = fm.findFragmentByTag("parent_home") as ParentHomeFragment
+            parentRecordsFragment = fm.findFragmentByTag("parent_records") as ParentRecordsFragment
+            parentProfileFragment = fm.findFragmentByTag("parent_profile") as ParentProfileFragment
         }
+        activeFragment = parentHomeFragment
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -119,7 +133,12 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_analysis -> {
-                    startActivity(Intent(this, AnalysisActivity::class.java))
+                    val intent = Intent(this, AnalysisActivity::class.java)
+                    val studentId = App.instance.prefs.currentStudentId
+                    if (studentId > 0) {
+                        intent.putExtra("student_id", studentId)
+                    }
+                    startActivity(intent)
                     false
                 }
                 R.id.nav_profile -> {
@@ -133,6 +152,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun switchFragment(target: Fragment) {
         if (target == activeFragment) return
+        val current = activeFragment ?: return
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(
                 R.anim.fade_slide_up,
@@ -140,7 +160,7 @@ class MainActivity : AppCompatActivity() {
                 R.anim.fade_slide_up,
                 R.anim.fade_slide_down
             )
-            .hide(activeFragment!!)
+            .hide(current)
             .show(target)
             .commit()
         activeFragment = target
