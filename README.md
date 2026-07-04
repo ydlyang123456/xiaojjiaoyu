@@ -244,13 +244,18 @@ systemctl restart nginx
 
 ## AI 服务配置
 
-系统默认接入 **DeepSeek** AI 平台，已预置 API Key。
+系统通过环境变量配置 AI 服务，**请勿将 API Key 硬编码到代码中或提交到仓库**。
 
-### 当前配置
-- **AI 平台**: DeepSeek
-- **API 地址**: https://api.deepseek.com/v1/chat/completions
-- **模型**: deepseek-chat
-- **API Key**: sk-ca89853ced22488ea1f63d5e3548a937
+### 配置方式
+
+在服务器上设置环境变量：
+
+```bash
+export AI_API_KEY='your-api-key'
+export AI_API_URL='https://api.example.com/v1/chat/completions'
+export AI_MODEL='your-model-name'
+export AI_PROVIDER='your-provider'
+```
 
 ### 支持的功能
 1. **AI 解题**：输入题目文字或上传图片，AI 自动解答，包含：

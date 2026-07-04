@@ -12,12 +12,12 @@ class Config:
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'studycheck-jwt-secret-2024'
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)
     
-    AI_API_KEY = os.environ.get('AI_API_KEY') or 'sk-cn3wkq21glm555oqkxovi7lan3mk5gd2a7m0nsqh55fszkgk'
-    AI_API_URL = os.environ.get('AI_API_URL') or 'https://api.xiaomimimo.com/v1/chat/completions'
-    AI_MODEL = os.environ.get('AI_MODEL') or 'mimo-v2.5'
-    AI_PROVIDER = os.environ.get('AI_PROVIDER') or 'xiaomi'
-    
-    APP_VERSION_CODE = 19
-    APP_VERSION_NAME = '3.9.0'
-    APP_CHANGELOG = 'v3.9.0 更新内容：\n1. 启动页Logo弹簧缩放动画，品牌更有质感\n2. 首页卡片依次入场动画，从上到下渐次出现\n3. 底部导航阴影增强，切换更流畅\n4. 所有列表RecyclerView添加上滑入场动画\n5. Fragment切换淡入上移动画，过渡更自然\n6. 首页搜索/宠物/排行榜按钮弹性触摸反馈'
+    AI_API_KEY = os.environ.get('AI_API_KEY', '')
+    AI_API_URL = os.environ.get('AI_API_URL', '')
+    AI_MODEL = os.environ.get('AI_MODEL', '')
+    AI_PROVIDER = os.environ.get('AI_PROVIDER', '')
+
+    APP_VERSION_CODE = 20
+    APP_VERSION_NAME = '4.0.0'
+    APP_CHANGELOG = 'v4.0.0 更新内容：\n1. 修复家长模式崩溃问题\n2. 修复家长模式AI分析无法打开的问题\n3. 整合项目结构，学生端和家长端合并为一个应用\n4. 登录时选择角色自动切换对应界面'
     APK_DOWNLOAD_URL = '/static/apk/studycheck.apk'
