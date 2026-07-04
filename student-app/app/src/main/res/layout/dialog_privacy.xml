@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/card_background"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="隐私政策与用户协议"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:maxHeight="320dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:text="欢迎使用「小J教育」！&#10;&#10;在使用本应用之前，请仔细阅读并同意《隐私政策》和《用户协议》：&#10;&#10;一、信息收集&#10;我们仅收集必要的账号信息（用户名、头像）和学习数据，用于提供学习服务和改进产品体验。&#10;&#10;二、信息使用&#10;您的个人信息将严格保密，仅用于：&#10;• 账号登录与身份验证&#10;• 学习进度记录与统计分析&#10;• 推送学习提醒和更新通知&#10;&#10;三、信息安全&#10;我们采用行业标准的安全措施保护您的数据，未经您的同意，不会向第三方披露个人信息。&#10;&#10;四、用户权利&#10;您有权随时查看、修改或删除您的个人信息，也可以注销账号。&#10;&#10;五、协议更新&#10;我们可能会适时更新本协议，更新后的协议将在应用内公布。&#10;&#10;点击「同意」即表示您已阅读并同意以上全部条款。" />
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDecline"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="不同意"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="120dp"
+                android:text="同意"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:cornerRadius="14dp"
+                android:background="@drawable/btn_primary_background" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,72 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android SDK
+android/
+
+# Android
+*.iml
+.idea/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Build outputs
+student-app/app/build/
+parent-app/app/build/
+
+# APK
+*.apk
+*.aab
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+backend/venv/
+backend/__pycache__/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temp scripts
+test_*.py
+upload_*.py
+deploy*.py
+build_*.py
+setup_*.py
+restart_*.py
+check_*.py
+fix_*.py
+generate_*.py
+install_*.py
+download_*.py
+verify_*.py
+
+# Privacy policy
+privacy-policy.html
+
+# DOCUMENTATION
+DOCUMENTATION/
+

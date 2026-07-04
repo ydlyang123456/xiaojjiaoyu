@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Apple Design System - Student Blue -->
+    <color name="primary">#007AFF</color>
+    <color name="primary_dark">#0064D6</color>
+    <color name="primary_light">#2E8DFF</color>
+    <color name="primary_alpha_12">#1E007AFF</color>
+    <color name="accent">#34C759</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1D1D1F</color>
+    <color name="text_secondary">#3C3C43</color>
+    <color name="text_tertiary">#8E8E93</color>
+    <color name="text_hint">#AEAEB2</color>
+
+    <!-- Backgrounds -->
+    <color name="background">#F2F2F7</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="surface">#F7F7FA</color>
+    <color name="divider">#E5E5EA</color>
+    <color name="divider_light">#F2F2F7</color>
+
+    <!-- Semantic -->
+    <color name="success">#34C759</color>
+    <color name="success_bg">#E8F9EC</color>
+    <color name="warning">#FF9F0A</color>
+    <color name="warning_alpha_12">#1EFF9F0A</color>
+    <color name="warning_bg">#FFF6E0</color>
+    <color name="error">#FF3B30</color>
+    <color name="error_bg">#FFEFEE</color>
+    <color name="info">#5AC8FA</color>
+
+    <!-- Navigation -->
+    <color name="nav_active">#007AFF</color>
+    <color name="nav_inactive">#8E8E93</color>
+    <color name="nav_background">#F2F2F7</color>
+
+    <!-- Charts -->
+    <color name="chart_blue">#4A90E2</color>
+    <color name="chart_green">#50C878</color>
+    <color name="chart_orange">#FFA500</color>
+    <color name="chart_red">#FF6B6B</color>
+    <color name="chart_purple">#9B59B6</color>
+
+    <!-- Card shadow tint -->
+    <color name="shadow">#0D000000</color>
+
+    <!-- Splash -->
+    <color name="splash_bg">#007AFF</color>
+
+    <!-- Pet / Gamification -->
+    <color name="exp_progress">#FF9F0A</color>
+    <color name="level_badge">#007AFF</color>
+    <color name="leaderboard_gold">#FFD60A</color>
+    <color name="leaderboard_silver">#C7C7CC</color>
+    <color name="leaderboard_bronze">#E09F5F</color>
+
+    <!-- Ripple -->
+    <color name="white_ripple">#33FFFFFF</color>
+    <color name="dark_ripple">#1A000000</color>
+</resources>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">小J教育</string>
+    <string name="nav_home">首页</string>
+    <string name="nav_search">搜题</string>
+    <string name="nav_knowledge">词典</string>
+    <string name="nav_pet">宠物</string>
+    <string name="nav_leaderboard">排行</string>
+    <string name="nav_profile">我的</string>
+    <string name="nav_records">记录</string>
+    <string name="nav_analysis">分析</string>
+    <string name="nav_bind_student">绑定学生</string>
+</resources>

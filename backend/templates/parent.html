@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ff9500">
+    <title>学习检测 - 家长端</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- 启动屏 -->
+<div id="splash" class="splash-screen parent-splash">
+    <div class="splash-bg-circle"></div>
+    <div class="splash-bg-circle"></div>
+    <div class="splash-bg-circle"></div>
+    <div class="splash-logo">👨‍👩‍👧</div>
+    <div class="splash-title">学习检测</div>
+    <div class="splash-subtitle">关注孩子学习成长</div>
+    <div class="splash-loader"></div>
+</div>
+
+<!-- 登录页 -->
+<div id="login-page" class="login-page" style="background:linear-gradient(145deg, #ff9500 0%, #e08600 100%);">
+    <div class="login-card">
+        <div class="login-logo">
+            <div style="width:72px;height:72px;margin:0 auto;background:linear-gradient(145deg,#ff9500,#e08600);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 6px 20px rgba(255,149,0,0.35);">👨‍👩‍👧</div>
+            <h2 id="login-title">家长登录</h2>
+        </div>
+        <div class="form-group">
+            <input type="text" id="login-username" placeholder="请输入用户名">
+        </div>
+        <div class="form-group">
+            <input type="password" id="login-password" placeholder="请输入密码">
+        </div>
+        <div class="form-group" id="register-nickname" style="display:none;">
+            <input type="text" id="login-nickname" placeholder="设置昵称">
+        </div>
+        <button class="btn btn-primary parent-btn" id="login-btn" onclick="doLogin()">登录</button>
+        <div class="login-toggle" id="login-toggle" onclick="toggleLoginMode()" style="color:#ff9500;">没有账号？去注册</div>
+    </div>
+</div>
+
+<!-- 首页 -->
+<div id="home-page" class="page">
+    <div class="header parent-header">
+        <h1>家长中心</h1>
+        <div class="subtitle">关注孩子学习成长</div>
+    </div>
+    <div class="container">
+        <div class="student-select">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                <span style="font-size:16px;font-weight:700;">我的孩子</span>
+                <span style="color:#ff9500;font-size:14px;cursor:pointer;font-weight:600;" onclick="showBindDialog()">+ 绑定孩子</span>
+            </div>
+            <div id="student-list"></div>
+        </div>
+        
+        <div class="quick-action">
+            <div class="quick-btn" onclick="navigateTo('records-page')">
+                <div class="icon">📋</div>
+                <div class="label">学习记录</div>
+            </div>
+            <div class="quick-btn" onclick="generateAnalysis()">
+                <div class="icon">📊</div>
+                <div class="label">AI分析</div>
+            </div>
+        </div>
+        
+        <div class="section-title">
+            <span>最近搜题</span>
+            <span class="more" onclick="navigateTo('records-page')">查看更多 ›</span>
+        </div>
+        <div id="recent-records"></div>
+    </div>
+</div>
+
+<!-- 记录查看页 -->
+<div id="records-page" class="page">
+    <div class="header parent-header">
+        <h1>学习记录</h1>
+        <div class="subtitle">查看孩子的搜题记录</div>
+    </div>
+    <div class="container" id="records-list"></div>
+</div>
+
+<!-- 记录详情页 -->
+<div id="record-detail-page" class="page">
+    <div class="search-header parent-header">
+        <div class="back-btn" onclick="navigateTo('records-page');loadRecords();">←</div>
+        <h2>题目详情</h2>
+    </div>
+    
+    <div id="record-detail-content" style="padding:12px 16px;">
+        <div style="text-align:center;padding:60px 20px;color:#8e8e93;">
+            <div style="font-size:56px;margin-bottom:16px;animation:floatApple 4s ease-in-out infinite;">📝</div>
+            <p style="font-weight:500;">加载中...</p>
+        </div>
+    </div>
+    
+    <div style="height:24px;"></div>
+</div>
+
+<!-- 分析页 -->
+<div id="analysis-page" class="page">
+    <div class="header parent-header">
+        <h1>AI学习分析</h1>
+        <div class="subtitle">深度分析孩子学习情况</div>
+    </div>
+    <div class="container">
+        <div class="student-select">
+            <div style="font-size:16px;font-weight:700;margin-bottom:14px;">选择学生</div>
+            <div id="analysis-student-list"></div>
+        </div>
+        
+        <button class="btn btn-primary parent-btn generate-btn" onclick="generateAnalysis()">🤖 生成AI分析报告</button>
+        
+        <div style="text-align:center;color:#8e8e93;padding:44px 20px;">
+            <div style="font-size:56px;margin-bottom:16px;animation:floatApple 4s ease-in-out infinite;">📈</div>
+            <p style="font-weight:500;">点击上方按钮生成学习分析报告</p>
+        </div>
+    </div>
+</div>
+
+<!-- 分析详情页 -->
+<div id="analysis-detail-page" class="page">
+    <div class="search-header parent-header">
+        <div class="back-btn" onclick="navigateTo('analysis-page')">←</div>
+        <h2>学习分析报告</h2>
+    </div>
+    
+    <div style="padding:12px 16px;">
+        <div style="text-align:right;color:#8e8e93;font-size:12px;font-weight:500;" id="analysis-time"></div>
+    </div>
+    
+    <div class="analysis-chart">
+        <h3 style="font-size:16px;margin-bottom:14px;color:#1d1d1f;font-weight:700;">📚 学科分布</h3>
+        <div class="chart-container">
+            <canvas id="subject-chart"></canvas>
+        </div>
+    </div>
+    
+    <div class="analysis-chart">
+        <h3 style="font-size:16px;margin-bottom:14px;color:#1d1d1f;font-weight:700;">📊 难度分布</h3>
+        <div class="chart-container">
+            <canvas id="difficulty-chart"></canvas>
+        </div>
+    </div>
+    
+    <div class="analysis-chart">
+        <h3 style="font-size:16px;margin-bottom:14px;color:#1d1d1f;font-weight:700;">📈 学习趋势</h3>
+        <div class="chart-container">
+            <canvas id="trend-chart"></canvas>
+        </div>
+    </div>
+    
+    <div class="detail-section">
+        <h3 class="weak">⚠️ 薄弱知识点</h3>
+        <div id="weak-points"></div>
+    </div>
+    
+    <div class="detail-section">
+        <h3 class="strong">💪 优势知识点</h3>
+        <div id="strong-points"></div>
+    </div>
+    
+    <div class="detail-section">
+        <h3 class="habit">⏰ 学习习惯</h3>
+        <div class="detail-content" id="learning-habits"></div>
+    </div>
+    
+    <div class="detail-section">
+        <h3 class="suggest">💡 学习建议</h3>
+        <div id="suggestions"></div>
+    </div>
+    
+    <div class="detail-section">
+        <h3>📝 总体评价</h3>
+        <div class="detail-content" id="overall-comment"></div>
+    </div>
+    
+    <div style="height:34px;"></div>
+</div>
+
+<!-- 个人中心页 -->
+<div id="profile-page" class="page">
+    <div class="profile-header parent-header">
+        <div class="avatar">👤</div>
+        <h2 id="profile-name">家长</h2>
+        <div class="username" id="profile-username">账号：</div>
+    </div>
+    
+    <div class="menu-list" style="margin-top:-28px;position:relative;z-index:2;">
+        <div class="menu-item" onclick="showBindDialog()">
+            <span class="icon">👶</span>
+            <span class="text">管理孩子</span>
+            <span class="arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="checkAppUpdate()">
+            <span class="icon">🔄</span>
+            <span class="text">检查更新</span>
+            <span class="arrow" id="update-version">v1.1.0</span>
+        </div>
+        <div class="menu-item" onclick="showToast('功能开发中')">
+            <span class="icon">⚙️</span>
+            <span class="text">设置</span>
+            <span class="arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="showToast('功能开发中')">
+            <span class="icon">📱</span>
+            <span class="text">关于我们</span>
+            <span class="arrow">›</span>
+        </div>
+    </div>
+    
+    <button class="btn btn-logout" onclick="logout()">退出登录</button>
+</div>
+
+<!-- 底部导航 -->
+<div class="bottom-nav parent-nav">
+    <div class="nav-item active" id="nav-home" onclick="navigateTo('home-page');loadStudents();loadRecords();">
+        <div class="icon">🏠</div>
+        <div class="label">首页</div>
+    </div>
+    <div class="nav-item" id="nav-records" onclick="navigateTo('records-page');loadRecords();">
+        <div class="icon">📋</div>
+        <div class="label">记录</div>
+    </div>
+    <div class="nav-item" id="nav-analysis" onclick="navigateTo('analysis-page');loadStudents();">
+        <div class="icon">📊</div>
+        <div class="label">分析</div>
+    </div>
+    <div class="nav-item" id="nav-profile" onclick="navigateTo('profile-page')">
+        <div class="icon">👤</div>
+        <div class="label">我的</div>
+    </div>
+</div>
+
+<!-- 加载 & Toast -->
+<div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p style="margin-top:14px;color:#8e8e93;font-weight:500;">加载中...</p>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// 启动动画控制
+(function() {
+    var splash = document.getElementById('splash');
+    if (splash) {
+        setTimeout(function() {
+            splash.classList.add('fade-out');
+            setTimeout(function() {
+                splash.style.display = 'none';
+            }, 500);
+        }, 1800);
+    }
+})();
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="/static/js/parent.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.StudyCheckStudent" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:navigationBarDividerColor">@color/divider</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:windowAnimationStyle">@style/ActivityTransitionAnimation</item>
+
+        <!-- 全局按钮样式 -->
+        <item name="materialButtonStyle">@style/Widget.StudyCheck.Button</item>
+    </style>
+
+    <!-- 全局按钮样式 - 圆角+波纹+按压反馈 -->
+    <style name="Widget.StudyCheck.Button" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">16dp</item>
+        <item name="android:elevation">2dp</item>
+        <item name="elevation">2dp</item>
+        <item name="rippleColor">@color/white_ripple</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- 底部导航样式 -->
+    <style name="Widget.StudyCheck.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconSize">24dp</item>
+        <item name="itemTextAppearanceActive">@style/BottomNavTextActive</item>
+        <item name="itemTextAppearanceInactive">@style/BottomNavTextInactive</item>
+        <item name="android:background">@color/nav_background</item>
+    </style>
+
+    <style name="BottomNavTextActive" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BottomNavTextInactive" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ActivityTransitionAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <style name="Theme.StudyCheckStudent.NoActionBar" parent="Theme.StudyCheckStudent">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Splash theme -->
+    <style name="Theme.StudyCheckStudent.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash_bg</item>
+        <item name="android:statusBarColor">@color/splash_bg</item>
+        <item name="android:navigationBarColor">@color/splash_bg</item>
+    </style>
+</resources>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        app:title="我的宠物"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@android:color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="24dp">
+
+            <!-- Pet display card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/card_background">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:id="@+id/tvPetEmoji"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="猫"
+                        android:textSize="72sp" />
+
+                    <TextView
+                        android:id="@+id/tvPetName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="学习精灵"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/tvPetLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lv.1"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_tertiary"
+                        android:layout_marginTop="4dp" />
+
+                    <!-- Exp bar -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="16dp">
+
+                        <ProgressBar
+                            android:id="@+id/pbExp"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/progress_exp" />
+
+                        <TextView
+                            android:id="@+id/tvExp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0/100"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Stats row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@color/warning_bg"
+                            android:padding="10dp"
+                            android:layout_marginEnd="6dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:textSize="18sp" />
+                            <TextView android:id="@+id/tvHunger" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:text="饱腹 100%"
+                                android:textSize="11sp" android:textColor="@color/warning" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@color/success_bg"
+                            android:padding="10dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:textSize="18sp" />
+                            <TextView android:id="@+id/tvHappiness" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:text="心情 100%"
+                                android:textSize="11sp" android:textColor="@color/success" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@color/background"
+                            android:padding="10dp"
+                            android:layout_marginStart="6dp">
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:textSize="18sp" />
+                            <TextView android:id="@+id/tvCorrected" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:text="订正 0"
+                                android:textSize="11sp" android:textColor="@color/primary" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Action buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFeed"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="喂食"
+                    android:textSize="14sp"
+                    app:cornerRadius="14dp"
+                    android:layout_marginEnd="5dp"
+                    android:backgroundTint="@color/primary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPlay"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="陪玩"
+                    android:textSize="14sp"
+                    app:cornerRadius="14dp"
+                    android:layout_marginStart="5dp"
+                    android:backgroundTint="@color/success" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBattle"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="⚔️ 对战"
+                    android:textSize="14sp"
+                    app:cornerRadius="14dp"
+                    android:backgroundTint="@color/error" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSkins"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="换装"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp"
+                    app:cornerRadius="14dp"
+                    android:layout_marginStart="5dp"
+                    app:strokeColor="@color/divider" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRename"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="改名"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp"
+                    app:cornerRadius="14dp"
+                    android:layout_marginStart="5dp"
+                    app:strokeColor="@color/divider" />
+            </LinearLayout>
+
+            <!-- Skin shop card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardSkins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/card_background">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="皮肤商店"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="12dp" />
+
+                    <GridView
+                        android:id="@+id/gvSkins"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:numColumns="4"
+                        android:horizontalSpacing="4dp"
+                        android:verticalSpacing="4dp"
+                        android:stretchMode="columnWidth" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="订正错题可获得经验值 - 难题获得更多经验"
+                android:textSize="12sp"
+                android:textColor="@color/text_tertiary"
+                android:gravity="center" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

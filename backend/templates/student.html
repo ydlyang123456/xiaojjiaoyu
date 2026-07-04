@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#007aff">
+    <title>学习检测 - 学生端</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+
+<!-- 启动屏 -->
+<div id="splash" class="splash-screen">
+    <div class="splash-bg-circle"></div>
+    <div class="splash-bg-circle"></div>
+    <div class="splash-bg-circle"></div>
+    <div class="splash-logo">📚</div>
+    <div class="splash-title">学习检测</div>
+    <div class="splash-subtitle">AI 智能学习助手</div>
+    <div class="splash-loader"></div>
+</div>
+
+<!-- 身份选择页 -->
+<div id="choose-page" class="login-page" style="display:none;">
+    <div style="text-align:center;margin-bottom:44px;padding-top:80px;position:relative;z-index:1;">
+        <div style="width:88px;height:88px;margin:0 auto 20px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:26px;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 8px 24px rgba(0,0,0,0.12);">📚</div>
+        <h1 style="font-size:28px;color:white;margin:0 0 10px 0;font-weight:700;letter-spacing:-0.5px;">欢迎使用学习检测</h1>
+        <p style="color:rgba(255,255,255,0.8);font-size:15px;line-height:1.6;font-weight:400;">AI智能学习助手，拍照就能搜题</p>
+    </div>
+    
+    <div style="display:flex;flex-direction:column;gap:14px;padding:0 28px;position:relative;z-index:1;">
+        <div onclick="selectMode('student')" 
+             class="mode-card"
+             style="background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-radius:16px;padding:22px 24px;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.12);transition:transform 0.25s cubic-bezier(0.22,1,0.36,1),box-shadow 0.25s cubic-bezier(0.22,1,0.36,1);">
+            <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:54px;height:54px;background:linear-gradient(145deg,#007aff,#0064d6);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 14px rgba(0,122,255,0.35);">
+                    👨‍🎓
+                </div>
+                <div style="flex:1;">
+                    <div style="font-weight:700;font-size:17px;color:#1d1d1f;margin-bottom:4px;">我是学生</div>
+                    <div style="font-size:13px;color:#8e8e93;">拍照搜题、AI解题、知识词典</div>
+                </div>
+                <div style="color:#d8d6cd;font-size:20px;font-weight:300;">›</div>
+            </div>
+        </div>
+        
+        <div onclick="selectMode('parent')" 
+             class="mode-card"
+             style="background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-radius:16px;padding:22px 24px;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.12);transition:transform 0.25s cubic-bezier(0.22,1,0.36,1),box-shadow 0.25s cubic-bezier(0.22,1,0.36,1);">
+            <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:54px;height:54px;background:linear-gradient(145deg,#ff9500,#e08600);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 14px rgba(255,149,0,0.35);">
+                    👨‍👩‍👧
+                </div>
+                <div style="flex:1;">
+                    <div style="font-weight:700;font-size:17px;color:#1d1d1f;margin-bottom:4px;">我是家长</div>
+                    <div style="font-size:13px;color:#8e8e93;">查看孩子学习记录、AI分析</div>
+                </div>
+                <div style="color:#d8d6cd;font-size:20px;font-weight:300;">›</div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top:44px;padding:0 28px;text-align:center;position:relative;z-index:1;">
+        <p style="font-size:12px;color:rgba(255,255,255,0.5);">选择后可在「我的」页面切换身份</p>
+    </div>
+</div>
+
+<!-- 登录页 -->
+<div id="login-page" class="login-page">
+    <div class="login-card">
+        <div class="login-logo">
+            <div style="width:72px;height:72px;margin:0 auto;background:linear-gradient(145deg,#007aff,#0064d6);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 6px 20px rgba(0,122,255,0.35);">📚</div>
+            <h2 id="login-title">学生登录</h2>
+        </div>
+        <div class="form-group">
+            <input type="text" id="login-username" placeholder="请输入用户名">
+        </div>
+        <div class="form-group">
+            <input type="password" id="login-password" placeholder="请输入密码">
+        </div>
+        <div class="form-group" id="register-nickname" style="display:none;">
+            <input type="text" id="login-nickname" placeholder="设置昵称">
+        </div>
+        <div class="form-group" id="register-grade" style="display:none;">
+            <select id="login-grade">
+                <option value="">选择年级</option>
+                <option value="小学一年级">小学一年级</option>
+                <option value="小学二年级">小学二年级</option>
+                <option value="小学三年级">小学三年级</option>
+                <option value="小学四年级">小学四年级</option>
+                <option value="小学五年级">小学五年级</option>
+                <option value="小学六年级">小学六年级</option>
+                <option value="初一">初一</option>
+                <option value="初二">初二</option>
+                <option value="初三">初三</option>
+                <option value="高一">高一</option>
+                <option value="高二">高二</option>
+                <option value="高三">高三</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" id="login-btn" onclick="doLogin()">登录</button>
+        <div class="login-toggle" id="login-toggle" onclick="toggleLoginMode()">没有账号？去注册</div>
+    </div>
+</div>
+
+<!-- 首页 -->
+<div id="home-page" class="page">
+    <div class="header">
+        <h1 id="welcome-name">同学你好</h1>
+        <div class="subtitle">今天也要加油学习哦</div>
+    </div>
+    <div class="container">
+        <div class="welcome-card">
+            <h2>📷 拍照搜题</h2>
+            <p style="opacity:0.9;margin-top:8px;">遇到不会的题目？拍一拍，AI老师来帮你</p>
+            <button class="btn btn-success" style="margin-top:18px;width:auto;" onclick="openSearch()">立即拍照</button>
+        </div>
+        
+        <div class="section-title">
+            <span>最近题目</span>
+            <span class="more" id="total-questions">共 0 道</span>
+        </div>
+        <div id="recent-questions"></div>
+    </div>
+</div>
+
+<!-- 搜题页 -->
+<div id="search-page" class="page">
+    <div class="search-header">
+        <div class="back-btn" onclick="navigateTo('home-page')">←</div>
+        <h2>拍照搜题</h2>
+    </div>
+    
+    <div class="search-image-upload" id="upload-area">
+        <div id="upload-placeholder" style="padding:16px 0;">
+            <div style="font-size:48px;margin-bottom:12px;opacity:0.6;">📸</div>
+            <p style="color:#8e8e93;font-size:14px;margin-bottom:16px;">上传题目图片或直接输入文字</p>
+        </div>
+        <img id="search-preview" class="image-preview" alt="预览图">
+        <div class="upload-btns">
+            <button class="upload-btn camera" onclick="takePhoto()">📷 拍照</button>
+            <button class="upload-btn gallery" onclick="chooseImage()">🖼️ 相册</button>
+        </div>
+        <input type="file" id="camera-input" style="display:none;" accept="image/*" capture="environment" onchange="handleImageSelect(this)">
+        <input type="file" id="gallery-input" style="display:none;" accept="image/*" onchange="handleImageSelect(this)">
+    </div>
+    
+    <div class="card" style="margin:12px 16px;">
+        <div class="form-group" style="margin-bottom:0;">
+            <label>选择学科</label>
+            <select id="search-subject">
+                <option value="数学">数学</option>
+                <option value="语文">语文</option>
+                <option value="英语">英语</option>
+                <option value="物理">物理</option>
+                <option value="化学">化学</option>
+                <option value="生物">生物</option>
+                <option value="历史">历史</option>
+                <option value="地理">地理</option>
+                <option value="政治">政治</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="card" style="margin:12px 16px;">
+        <div class="form-group" style="margin-bottom:0;">
+            <label>题目描述（可选）</label>
+            <textarea id="search-text" rows="3" placeholder="输入题目文字内容..."></textarea>
+        </div>
+    </div>
+    
+    <div style="padding:0 16px;">
+        <button class="btn btn-primary" onclick="doSearch()">🔍 AI 搜题</button>
+    </div>
+    
+    <div id="search-result" style="display:none;margin-top:16px;">
+        <div class="answer-section">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <div id="result-subject"></div>
+                <div id="result-difficulty"></div>
+            </div>
+            <h3>AI 解答</h3>
+            <div class="answer-content" id="result-answer"></div>
+        </div>
+        
+        <div class="answer-section">
+            <h3>📖 知识点</h3>
+            <div class="knowledge-points" id="result-knowledge"></div>
+        </div>
+    </div>
+    
+    <div style="height:24px;"></div>
+</div>
+
+<!-- 知识词典页 -->
+<div id="knowledge-page" class="page">
+    <div class="header">
+        <h1>知识词典</h1>
+        <div class="subtitle">AI智能解答，学科知识一查就懂</div>
+    </div>
+    <div class="container">
+        <div class="knowledge-search-section" style="margin-bottom:20px;">
+            <div class="search-input-wrapper" style="position:relative;">
+                <input type="text" id="knowledge-search-input" placeholder="输入学科问题，如：勾股定理、牛顿第一定律..." 
+                       class="search-input" style="width:100%;height:52px;padding:0 60px 0 20px;border-radius:26px;border:2px solid #eceae2;font-size:16px;outline:none;background:#fff;transition:border-color 0.25s,box-shadow 0.25s;"
+                       onfocus="this.style.borderColor='#007aff';this.style.boxShadow='0 0 0 4px rgba(0,122,255,0.15)';"
+                       onblur="this.style.borderColor='#e5e5ea';this.style.boxShadow='none';">
+                <button onclick="askAIKnowledge()" class="knowledge-search-btn" 
+                        style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#007aff,#0064d6);border:none;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,122,255,0.35);">
+                    🔍
+                </button>
+            </div>
+            <div class="knowledge-hint" style="margin-top:10px;font-size:12px;color:#908e84;text-align:center;">
+                💡 支持数学、语文、英语、物理、化学、生物、历史、地理、政治等学科知识查询
+            </div>
+        </div>
+        
+        <div class="knowledge-quick-section" style="margin-bottom:20px;">
+            <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <span style="font-size:16px;font-weight:700;color:var(--text-primary);">✨ 试试这些</span>
+            </div>
+            <div class="knowledge-quick-tags" id="knowledge-quick-tags" style="display:flex;flex-wrap:wrap;gap:10px;">
+            </div>
+        </div>
+        
+        <div id="knowledge-result-section" style="display:none;">
+            <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <span style="font-size:16px;font-weight:700;color:var(--text-primary);">📖 查询结果</span>
+            </div>
+            <div id="knowledge-detail-content">
+            </div>
+        </div>
+        
+        <div id="knowledge-empty-state" style="text-align:center;padding:40px 20px;">
+            <div style="font-size:72px;margin-bottom:20px;animation:float 3.5s ease-in-out infinite;">📚</div>
+            <h3 style="font-size:18px;font-weight:600;color:var(--text-primary);margin-bottom:8px;">开始探索知识</h3>
+            <p style="font-size:14px;color:var(--text-secondary);line-height:1.6;">输入任何学科问题<br>AI老师为你详细解答</p>
+        </div>
+        
+        <div style="height:24px;"></div>
+    </div>
+</div>
+
+<!-- 记录列表页 -->
+<div id="records-page" class="page">
+    <div class="header">
+        <h1>搜题记录</h1>
+        <div class="subtitle">查看你的历史搜题</div>
+    </div>
+    <div class="container" id="records-list"></div>
+</div>
+
+<!-- 记录详情页 -->
+<div id="record-detail-page" class="page">
+    <div class="search-header">
+        <div class="back-btn" onclick="navigateTo('records-page');loadRecords();">←</div>
+        <h2>题目详情</h2>
+    </div>
+    
+    <div id="record-detail-content" style="padding:12px 16px;">
+        <div style="text-align:center;padding:60px 20px;color:#8e8e93;">
+            <div style="font-size:56px;margin-bottom:16px;animation:floatApple 4s ease-in-out infinite;">📝</div>
+            <p style="font-weight:500;">加载中...</p>
+        </div>
+    </div>
+    
+    <div style="height:24px;"></div>
+</div>
+
+<!-- 电子宠物页 -->
+<div id="pet-page" class="page">
+    <div class="header" style="background:linear-gradient(135deg,#ff6b9d,#c44dff);padding-top:20px;">
+        <h1>我的宠物</h1>
+        <div class="subtitle">学习越努力，宠物越强大</div>
+    </div>
+    <div class="container">
+        <div id="pet-main-card" style="background:white;border-radius:20px;padding:24px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.08);text-align:center;">
+            <div id="pet-display" style="font-size:80px;margin:12px 0;animation:petBounce 2s ease-in-out infinite;">🐱</div>
+            <div id="pet-name" style="font-size:20px;font-weight:700;color:#1d1d1f;margin-bottom:4px;">学习精灵</div>
+            <div id="pet-level" style="font-size:14px;color:#8e8e93;margin-bottom:16px;">Lv.1</div>
+            <div style="display:flex;gap:12px;margin-bottom:16px;">
+                <div style="flex:1;background:#f5f5f7;border-radius:12px;padding:12px;">
+                    <div style="font-size:12px;color:#8e8e93;margin-bottom:4px;">经验值</div>
+                    <div style="height:6px;background:#e5e5ea;border-radius:3px;overflow:hidden;">
+                        <div id="pet-exp-bar" style="height:100%;background:linear-gradient(90deg,#ff6b9d,#c44dff);border-radius:3px;transition:width 0.5s;"></div>
+                    </div>
+                    <div id="pet-exp-text" style="font-size:12px;color:#8e8e93;margin-top:4px;">0/100</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;">
+                <div style="flex:1;background:#fff3e0;border-radius:12px;padding:10px;">
+                    <div style="font-size:20px;">🍖</div>
+                    <div id="pet-hunger" style="font-size:12px;color:#e65100;">饱腹 100%</div>
+                </div>
+                <div style="flex:1;background:#e8f5e9;border-radius:12px;padding:10px;">
+                    <div style="font-size:20px;">😊</div>
+                    <div id="pet-happiness" style="font-size:12px;color:#2e7d32;">心情 100%</div>
+                </div>
+                <div style="flex:1;background:#e3f2fd;border-radius:12px;padding:10px;">
+                    <div style="font-size:20px;">✅</div>
+                    <div id="pet-corrected" style="font-size:12px;color:#1565c0;">订正 0</div>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;">
+            <button class="btn btn-primary" style="flex:1;border-radius:14px;font-size:14px;" onclick="feedPet()">🍖 喂食</button>
+            <button class="btn btn-success" style="flex:1;border-radius:14px;font-size:14px;background:#34c759;" onclick="playWithPet()">🎾 陪玩</button>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:20px;">
+            <button class="btn" style="flex:1;border-radius:14px;font-size:14px;background:#f5f5f7;color:#1d1d1f;" onclick="showPetSkins()">🎨 换装</button>
+            <button class="btn" style="flex:1;border-radius:14px;font-size:14px;background:#f5f5f7;color:#1d1d1f;" onclick="renamePet()">✏️ 改名</button>
+        </div>
+        <div id="pet-skins-section" style="display:none;background:white;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow-sm);">
+            <h3 style="font-size:16px;font-weight:700;margin:0 0 12px 0;">🎨 皮肤商店</h3>
+            <div id="pet-skins-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;"></div>
+        </div>
+        <div style="text-align:center;padding:12px;font-size:12px;color:var(--text-hint);">
+            订正错题可获得经验值 · 难题获得更多经验
+        </div>
+        <div style="height:24px;"></div>
+    </div>
+</div>
+
+<!-- 排行榜页 -->
+<div id="leaderboard-page" class="page">
+    <div class="header" style="background:linear-gradient(135deg,#ff9500,#ff6b00);padding-top:20px;">
+        <h1>排行榜</h1>
+        <div class="subtitle">看看谁的宠物最强</div>
+    </div>
+    <div class="container">
+        <div id="leaderboard-list"></div>
+        <div style="height:24px;"></div>
+    </div>
+</div>
+
+<!-- 阅读原文全屏页 -->
+<div id="reader-page" class="page" style="background:#1d1d1f;">
+    <div style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(29,29,31,0.9);backdrop-filter:blur(20px);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
+        <div class="back-btn" onclick="closeReader()" style="color:white;font-size:18px;cursor:pointer;">← 返回</div>
+        <div id="reader-title" style="color:white;font-size:16px;font-weight:600;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">阅读</div>
+        <div id="reader-fullscreen-btn" onclick="toggleFullscreen()" style="color:white;font-size:18px;cursor:pointer;">⛶</div>
+    </div>
+    <div id="reader-content" style="padding:60px 20px 40px;color:#f5f5f7;font-size:16px;line-height:2;overflow-y:auto;height:100vh;"></div>
+</div>
+
+<!-- 记忆卡片页 -->
+<div id="flashcard-page" class="page">
+    <div class="header" style="background:linear-gradient(135deg,#5856d6,#9b59b6);padding-top:20px;">
+        <h1>记忆卡片</h1>
+        <div class="subtitle">艾宾浩斯遗忘曲线，科学复习</div>
+    </div>
+    <div class="container">
+        <div id="flashcard-reminder" style="display:none;background:#fff3e0;border-radius:14px;padding:12px 16px;margin-bottom:14px;color:#e65100;font-size:13px;font-weight:500;text-align:center;"></div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;">
+            <button class="btn btn-primary" style="flex:1;border-radius:14px;font-size:13px;" onclick="showCreateFlashcard()">+ 新建卡片</button>
+            <button class="btn" style="flex:1;border-radius:14px;font-size:13px;background:#f5f5f7;color:#1d1d1f;" onclick="exportFlashcards()">📥 导出</button>
+        </div>
+        <div id="flashcard-list"></div>
+        <div id="flashcard-empty" style="text-align:center;padding:40px 20px;color:#8e8e93;">
+            <div style="font-size:48px;margin-bottom:12px;">📝</div>
+            <div style="font-size:15px;">还没有记忆卡片</div>
+            <div style="font-size:13px;margin-top:4px;">点击上方按钮创建，最多5张</div>
+        </div>
+    </div>
+</div>
+
+<!-- 宠物对战页 -->
+<div id="battle-page" class="page">
+    <div class="header" style="background:linear-gradient(135deg,#ff3b30,#ff9500);padding-top:20px;">
+        <h1>宠物对战</h1>
+        <div class="subtitle">用公式技能击败对手</div>
+    </div>
+    <div class="container">
+        <div id="battle-start">
+            <div style="text-align:center;padding:30px 0;">
+                <div style="font-size:72px;margin-bottom:16px;">⚔️</div>
+                <div style="font-size:16px;font-weight:700;color:#1d1d1f;margin-bottom:8px;">宠物对战</div>
+                <div style="font-size:13px;color:#8e8e93;line-height:1.6;">熟练度100%的公式自动释放<br>不熟练的公式需要解题来释放</div>
+                <button class="btn btn-primary" style="margin-top:20px;border-radius:14px;padding:14px 40px;font-size:15px;" onclick="startBattleWeb()">开始对战</button>
+            </div>
+        </div>
+        <div id="battle-area" style="display:none;">
+            <div style="background:white;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);text-align:center;">
+                <div id="opp-emoji" style="font-size:48px;">🐲</div>
+                <div id="opp-name" style="font-weight:700;font-size:15px;color:#1d1d1f;">对手</div>
+                <div id="opp-level" style="font-size:12px;color:#8e8e93;">Lv.1</div>
+                <div style="height:6px;background:#e5e5ea;border-radius:3px;margin-top:8px;overflow:hidden;">
+                    <div id="opp-hp-bar" style="height:100%;background:#ff3b30;border-radius:3px;width:100%;transition:width 0.3s;"></div>
+                </div>
+                <div id="opp-hp-text" style="font-size:11px;color:#8e8e93;margin-top:4px;">100/100</div>
+            </div>
+            <div style="text-align:center;font-size:20px;margin:8px 0;color:#ff9500;">⚡ VS ⚡</div>
+            <div style="background:white;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);text-align:center;">
+                <div id="player-emoji" style="font-size:48px;">🐱</div>
+                <div id="player-name" style="font-weight:700;font-size:15px;color:#1d1d1f;">我的宠物</div>
+                <div id="player-level" style="font-size:12px;color:#8e8e93;">Lv.1</div>
+                <div style="height:6px;background:#e5e5ea;border-radius:3px;margin-top:8px;overflow:hidden;">
+                    <div id="player-hp-bar" style="height:100%;background:#34c759;border-radius:3px;width:100%;transition:width 0.3s;"></div>
+                </div>
+                <div id="player-hp-text" style="font-size:11px;color:#8e8e93;margin-top:4px;">100/100</div>
+            </div>
+            <div style="font-weight:700;font-size:14px;color:#1d1d1f;margin-bottom:8px;">选择公式：</div>
+            <div id="battle-formulas" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;"></div>
+            <div id="battle-log" style="background:#f5f5f7;border-radius:12px;padding:12px;font-size:12px;color:#3c3c43;max-height:120px;overflow-y:auto;line-height:1.8;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 个人中心页 -->
+<div id="profile-page" class="page">
+    <div class="profile-header">
+        <div class="avatar">👤</div>
+        <h2 id="profile-name">昵称</h2>
+        <div class="username" id="profile-username">账号：</div>
+        <div class="username" id="profile-grade">年级：</div>
+    </div>
+    
+    <div class="stats-card">
+        <div class="stat-item">
+            <div class="num" id="stat-searches">0</div>
+            <div class="label">搜题数</div>
+        </div>
+        <div class="stat-item">
+            <div class="num" id="stat-subjects">0</div>
+            <div class="label">学科数</div>
+        </div>
+        <div class="stat-item">
+            <div class="num" id="stat-difficult">0</div>
+            <div class="label">难题数</div>
+        </div>
+    </div>
+    
+    <div class="menu-list">
+        <div class="menu-item" onclick="switchMode()">
+            <span class="icon">🔄</span>
+            <span class="text">切换身份</span>
+            <span class="arrow" id="current-mode-display">学生</span>
+        </div>
+        <div class="menu-item" onclick="checkAppUpdate()">
+            <span class="icon">🔄</span>
+            <span class="text">检查更新</span>
+            <span class="arrow" id="update-version">v1.1.0</span>
+        </div>
+        <div class="menu-item" onclick="showToast('功能开发中')">
+            <span class="icon">⚙️</span>
+            <span class="text">设置</span>
+            <span class="arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="showToast('功能开发中')">
+            <span class="icon">📱</span>
+            <span class="text">关于我们</span>
+            <span class="arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="navigateTo('leaderboard-page');loadLeaderboard();">
+            <span class="icon">🏆</span>
+            <span class="text">排行榜</span>
+            <span class="arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="navigateTo('pet-page');loadPetInfo();">
+            <span class="icon">🐾</span>
+            <span class="text">我的宠物</span>
+            <span class="arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="navigateTo('flashcard-page');loadFlashcards();">
+            <span class="icon">📝</span>
+            <span class="text">记忆卡片</span>
+            <span class="arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="loadBattlePage();">
+            <span class="icon">⚔️</span>
+            <span class="text">宠物对战</span>
+            <span class="arrow">›</span>
+        </div>
+    </div>
+    
+    <button class="btn btn-logout" onclick="logout()">退出登录</button>
+</div>
+
+<!-- 底部导航 -->
+<div class="bottom-nav">
+    <div class="nav-item active" id="nav-home" onclick="navigateTo('home-page')">
+        <div class="icon">🏠</div>
+        <div class="label">首页</div>
+    </div>
+    <div class="nav-item" id="nav-pet" onclick="navigateTo('pet-page');loadPetInfo();">
+        <div class="icon">🐾</div>
+        <div class="label">宠物</div>
+    </div>
+    <div class="nav-item" id="nav-search" onclick="openSearch()">
+        <div class="icon">🔍</div>
+        <div class="label">搜题</div>
+    </div>
+    <div class="nav-item" id="nav-knowledge" onclick="navigateTo('knowledge-page');initKnowledgePage();">
+        <div class="icon">📚</div>
+        <div class="label">词典</div>
+    </div>
+    <div class="nav-item" id="nav-profile" onclick="navigateTo('profile-page')">
+        <div class="icon">👤</div>
+        <div class="label">我的</div>
+    </div>
+</div>
+
+<!-- 加载 & Toast -->
+<div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p style="margin-top:14px;color:#8e8e93;font-weight:500;">加载中...</p>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// 启动动画控制
+(function() {
+    var splash = document.getElementById('splash');
+    if (splash) {
+        setTimeout(function() {
+            splash.classList.add('fade-out');
+            setTimeout(function() {
+                splash.style.display = 'none';
+            }, 500);
+        }, 1800);
+    }
+})();
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="/static/js/student.js"></script>
+</body>
+</html>

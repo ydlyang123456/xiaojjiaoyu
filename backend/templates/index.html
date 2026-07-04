@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4A90E2">
+    <meta name="description" content="学习检测 - 学生家长互动学习平台">
+    <title>学习检测</title>
+    
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/static/img/icon-192.png">
+    <link rel="apple-touch-icon" href="/static/img/icon-192.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 50%, #FF6B6B 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 60px;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        
+        .choice-title {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .choice-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .choice-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .choice-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-student {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-parent {
+            background: linear-gradient(135deg, #FF6B6B 0%, #E55555 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            margin-bottom: 0;
+        }
+        
+        .btn-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .btn-text {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .install-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+        
+        .install-banner.show {
+            display: flex;
+        }
+        
+        .install-btn {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .dismiss-btn {
+            background: transparent;
+            color: #999;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">📚</div>
+        <h1>学习检测</h1>
+        <p class="subtitle">AI智能学习分析平台</p>
+        
+        <p class="choice-title">请选择您的身份</p>
+        
+        <a href="/student" class="choice-btn btn-student">
+            <div class="btn-icon">👨‍🎓</div>
+            <div>我是学生</div>
+            <div class="btn-text">拍照搜题、AI解题</div>
+        </a>
+        
+        <a href="/parent" class="choice-btn btn-parent">
+            <div class="btn-icon">👨‍👩‍👧</div>
+            <div>我是家长</div>
+            <div class="btn-text">查看学习报告、AI分析</div>
+        </a>
+        
+        <p class="footer">点击上方按钮进入对应端</p>
+    </div>
+    
+    <div id="install-banner" class="install-banner">
+        <span>添加到主屏幕可获得更好的体验</span>
+        <div>
+            <button class="dismiss-btn" onclick="dismissInstall()">稍后</button>
+            <button class="install-btn" onclick="installApp()">安装</button>
+        </div>
+    </div>
+    
+    <script>
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            if (!localStorage.getItem('installDismissed')) {
+                document.getElementById('install-banner').classList.add('show');
+            }
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('用户安装了应用');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('install-banner').classList.remove('show');
+                });
+            }
+        }
+        
+        function dismissInstall() {
+            localStorage.setItem('installDismissed', 'true');
+            document.getElementById('install-banner').classList.remove('show');
+        }
+        
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('Service Worker 注册成功'))
+                .catch(err => console.log('Service Worker 注册失败', err));
+        }
+    </script>
+</body>
+</html>

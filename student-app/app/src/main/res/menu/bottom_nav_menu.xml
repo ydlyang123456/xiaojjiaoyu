@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/nav_home"
+        android:showAsAction="always|withText"
+        android:orderInCategory="0" />
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/nav_search"
+        android:showAsAction="always|withText"
+        android:orderInCategory="1" />
+    <item
+        android:id="@+id/nav_knowledge"
+        android:icon="@drawable/ic_knowledge"
+        android:title="@string/nav_knowledge"
+        android:showAsAction="always|withText"
+        android:orderInCategory="2" />
+    <item
+        android:id="@+id/nav_pet"
+        android:icon="@drawable/ic_pet"
+        android:title="@string/nav_pet"
+        android:showAsAction="always|withText"
+        android:orderInCategory="3" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_person"
+        android:title="@string/nav_profile"
+        android:showAsAction="always|withText"
+        android:orderInCategory="4" />
+</menu>
